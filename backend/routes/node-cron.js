@@ -9,13 +9,9 @@ let task = cron.schedule(
   "*/15 * * * * *",
   async () => {
     console.log("now!");
-    const nba = await axios.get(
-      "https://chumley.barstoolsports.com/dev/data/games/6c974274-4bfc-4af8-a9c4-8b926637ba74.json"
-    );
+    const nba = await axios.get(`${process.env.NBA_URL}`);
 
-    const mlb = await axios.get(
-      "https://chumley.barstoolsports.com/dev/data/games/eed38457-db28-4658-ae4f-4d4d38e9e212.json"
-    );
+    const mlb = await axios.get(`${process.env.MLB_URL}`);
 
     if (nba.data.away_period_scores.length < 4) {
       addSpace(nba, "away", 4);
