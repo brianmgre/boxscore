@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { getSports } from "./api";
-import CustomTable from "./table";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import moment from "moment";
 import CustomGrid from "./customGrid";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+const styles = {
+  preGameContainer: {}
+};
 
 class PreGame extends Component {
   state = {
@@ -27,18 +28,23 @@ class PreGame extends Component {
 
   render() {
     const { gameInfo } = this.state;
-    const { league } = this.props;
+    const { league, classes, toggleGame } = this.props;
 
     if (gameInfo === null || gameInfo.length === 0) {
       return <h1>loading....</h1>;
     } else {
       return (
-        <div>
-          <CustomGrid gameInfo={gameInfo} gameStatus={"pre"} />
+        <div className={classes.preGameContainer}>
+          <CustomGrid
+            gameInfo={gameInfo}
+            gameStatus={"pre"}
+            toggleGame={toggleGame}
+            gameBtn={"Launch Game"}
+          />
         </div>
       );
     }
   }
 }
 
-export default PreGame;
+export default withStyles(styles)(PreGame);

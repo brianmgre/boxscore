@@ -33,8 +33,7 @@ class Game extends Component {
     if (gameStatus === "pre") {
       return (
         <div className="App">
-          <PreGame league={league} />
-          <button onClick={this.toggleGame}>game</button>
+          <PreGame league={league} toggleGame={this.toggleGame} />
         </div>
       );
     } else if (gameStatus === "live") {

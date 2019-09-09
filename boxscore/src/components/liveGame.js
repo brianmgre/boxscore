@@ -2,8 +2,15 @@ import React, { Component } from "react";
 import { getSports } from "./api";
 import CustomTable from "./table";
 import { helper } from "./helper";
+import CustomGrid from "./customGrid";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 let gameLength;
+const styles = {
+  liveGameFooter: {
+    marginBottom: "30px"
+  }
+};
 
 class LiveGame extends Component {
   state = {
@@ -13,8 +20,9 @@ class LiveGame extends Component {
 
   componentDidMount() {
     const { league } = this.props;
-    this.setGameLength();
+
     const tick = () => {
+      this.setGameLength();
       getSports(league)
         .then(res => {
           this.setState({
@@ -47,17 +55,17 @@ class LiveGame extends Component {
     }
   }
 
+  // moves to the final view when the game is over
   // componentDidUpdate(prevProps, prevState) {
   //   const { gameData } = this.state;
   //   const { gameStatus, league } = this.props;
-  //   // if (gameData[0].event_information.status === "completed") {
-  //   //   gameStatus("completed");
-  //   // }
-
+  //   if (gameData[0].event_information.status === "completed") {
+  //     gameStatus("completed");
+  //   }
   // }
 
   render() {
-    const { classes, league, toggleGame } = this.props;
+    const { classes, toggleGame } = this.props;
     const { gameData, error } = this.state;
     if (gameData === null || gameData.length === 0) {
       return <h1>loading....</h1>;
@@ -65,12 +73,14 @@ class LiveGame extends Component {
       return (
         <React.Fragment>
           <CustomTable tableHead={gameLength} tableData={gameData} />
-          <div>
-            <p>{gameData[0].away_team.last_name}</p>
-            <p>{gameData[0].event_information.status}</p>
-            <p>{gameData[0].home_team.last_name}</p>
+          <div className={classes.liveGameFooter}>
+            <CustomGrid
+              gameInfo={gameData}
+              gameStatus={"live"}
+              toggleGame={toggleGame}
+              gameBtn={"Leave Game"}
+            />
           </div>
-          <button onClick={toggleGame}>Turn off</button>
           {error && <p>'Error receiving data'</p>}
         </React.Fragment>
       );
@@ -78,4 +88,4 @@ class LiveGame extends Component {
   }
 }
 
-export default LiveGame;
+export default withStyles(styles)(LiveGame);
