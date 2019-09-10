@@ -28,7 +28,7 @@ class PreGame extends Component {
 
   render() {
     const { gameInfo } = this.state;
-    const { league, classes, toggleGame } = this.props;
+    const { classes, setGameStatus } = this.props;
 
     if (gameInfo === null || gameInfo.length === 0) {
       return <h1>loading....</h1>;
@@ -38,7 +38,7 @@ class PreGame extends Component {
           <CustomGrid
             gameInfo={gameInfo}
             gameStatus={"pre"}
-            toggleGame={toggleGame}
+            setGameStatus={setGameStatus}
             gameBtn={"Launch Game"}
           />
         </div>

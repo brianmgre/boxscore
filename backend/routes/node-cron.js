@@ -5,26 +5,21 @@ require("dotenv").config();
 const mlbDb = require("../models/mlb");
 const nbaDB = require("../models/nba");
 
-let task = cron.schedule(
+let mlbRunning = false;
+let nbaRunning = false;
+let gameOverMlb = false;
+let gameOverNba = false;
+
+let nbaTask = cron.schedule(
   "*/15 * * * * *",
   async () => {
-    console.log("now!");
     const nba = await axios.get(`${process.env.NBA_URL}`);
-
-    const mlb = await axios.get(`${process.env.MLB_URL}`);
 
     if (nba.data.away_period_scores.length < 4) {
       addSpace(nba, "away", 4);
     }
     if (nba.data.home_period_scores.length < 4) {
       addSpace(nba, "home", 4);
-    }
-
-    if (mlb.data.away_period_scores.length < 9) {
-      addSpace(nba, "away", 9);
-    }
-    if (mlb.data.home_period_scores.length < 9) {
-      addSpace(nba, "home", 9);
     }
 
     nbaDB.replaceOne(
@@ -36,6 +31,28 @@ let task = cron.schedule(
       }
     );
 
+    //comment out if you want cron to run
+    if (nba.data.event_information.status === "completed") {
+      gameOverNba = true;
+      nbaTask.stop();
+    }
+  },
+  {
+    scheduled: true
+  }
+);
+
+let mlbTask = cron.schedule(
+  "*/15 * * * * *",
+  async () => {
+    const mlb = await axios.get(`${process.env.MLB_URL}`);
+    if (mlb.data.away_period_scores.length < 9) {
+      addSpace(nba, "away", 9);
+    }
+    if (mlb.data.home_period_scores.length < 9) {
+      addSpace(nba, "home", 9);
+    }
+
     mlbDb.replaceOne(
       { league: "MLB" },
       mlb.data,
@@ -44,14 +61,17 @@ let task = cron.schedule(
         if (err) throw err;
       }
     );
-    // });
+
+    //comment out if you want to the cron to run
+    if (mlb.data.event_information.status === "completed") {
+      gameOverMlb = true;
+      mlbTask.stop();
+    }
   },
   {
     scheduled: true
   }
 );
-
-task.stop();
 
 function addSpace(league, location, num) {
   if (location === "home") {
@@ -64,3 +84,12 @@ function addSpace(league, location, num) {
     }
   }
 }
+
+module.exports = {
+  mlbRunning,
+  nbaRunning,
+  mlbTask,
+  nbaTask,
+  gameOverMlb,
+  gameOverNba
+};

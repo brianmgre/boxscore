@@ -1,49 +1,33 @@
 import React, { Component } from "react";
-import { getSports } from "../components/api.js";
 import LiveGame from "../components/liveGame";
 import PreGame from "../components/preGame";
 import GameOver from "../components/gameOver";
 
 class Game extends Component {
   state = {
-    gameOn: false,
     gameStatus: "pre"
-  };
-
-  toggleGame = () => {
-    const { gameStatus } = this.state;
-
-    this.setState({
-      gameOn: !this.state.gameOn,
-      gameStatus: gameStatus == "pre" ? "live" : "pre"
-    });
   };
 
   setGameStatus = status => {
     this.setState({
-      gameStatus: status,
-      gameOn: false
+      gameStatus: status
     });
   };
 
   render() {
-    const { gameOn, gameStatus } = this.state;
+    const { gameStatus } = this.state;
     const { league } = this.props;
 
     if (gameStatus === "pre") {
       return (
         <div className="App">
-          <PreGame league={league} toggleGame={this.toggleGame} />
+          <PreGame league={league} setGameStatus={this.setGameStatus} />
         </div>
       );
     } else if (gameStatus === "live") {
       return (
         <div className="App">
-          <LiveGame
-            gameStatus={this.setGameStatus}
-            toggleGame={this.toggleGame}
-            league={league}
-          />
+          <LiveGame setGameStatus={this.setGameStatus} league={league} />
         </div>
       );
     } else if (gameStatus === "completed") {

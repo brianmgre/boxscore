@@ -45,9 +45,8 @@ const styles = {
 };
 
 const CustomGrid = props => {
-  const { gameInfo, gameStatus, classes, toggleGame, gameBtn } = props;
+  const { gameInfo, gameStatus, setGameStatus, classes, gameBtn } = props;
 
-  console.log(gameInfo);
   return (
     <Grid item xs={12} className={classes.gridContainer}>
       <Grid container justify="center">
@@ -87,8 +86,11 @@ const CustomGrid = props => {
                 {value.event_information.temperature !== 0 ? (
                   <p>Temperature: {value.event_information.temperature}°</p>
                 ) : null}
-                <button onClick={toggleGame} className={classes.btn}>
-                  {gameBtn}{" "}
+                <button
+                  onClick={() => setGameStatus("live")}
+                  className={classes.btn}
+                >
+                  {gameBtn}
                 </button>
               </Paper>
             )}
@@ -96,7 +98,10 @@ const CustomGrid = props => {
             {gameStatus === "live" && (
               <Paper className={classes.paperContainer}>
                 <h1>{value.event_information.status}</h1>
-                <button onClick={toggleGame} className={classes.btn}>
+                <button
+                  onClick={() => setGameStatus("pre")}
+                  className={classes.btn}
+                >
                   {gameBtn}
                 </button>
               </Paper>

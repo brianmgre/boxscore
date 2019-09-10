@@ -1,12 +1,10 @@
-import React, { Component } from "react";
-// @material-ui/core components
+import React from "react";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import Paper from "@material-ui/core/Paper";
-import { Icon, TableFooter, TablePagination } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 const styles = {
@@ -34,8 +32,7 @@ const styles = {
 };
 
 const CustomTable = props => {
-  const { classes, tableHead, tableData, tableHeaderColor, gameStatus } = props;
-  console.log("props", tableData);
+  const { classes, tableHead, tableData } = props;
 
   return (
     <Paper className={classes.tableContainer}>
@@ -60,7 +57,6 @@ const CustomTable = props => {
                     {tableData[0].away_team.abbreviation}
                   </TableCell>
                   {prop.away_period_scores.map((prop, key) => {
-                    console.log(tableData[0]);
                     return (
                       <TableCell key={key + 203} className={classes.gameCells}>
                         {prop}
@@ -119,15 +115,6 @@ const CustomTable = props => {
             );
           })}
         </TableBody>
-        {/* {gameStatus !== "completed" ? (
-          <TableFooter>
-            <TableRow>
-              <TableCell>{tableData[0].away_team.full_name}</TableCell>
-              <TableCell>{tableData[0].event_information.status}</TableCell>
-              <TableCell>{tableData[0].home_team.full_name}</TableCell>
-            </TableRow>
-          </TableFooter>
-        ) : null} */}
       </Table>
     </Paper>
   );

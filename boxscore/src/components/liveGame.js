@@ -44,6 +44,7 @@ class LiveGame extends Component {
     window.clearInterval(this.timer);
   }
 
+  //sets length of headers for table based on league
   setGameLength() {
     const { league } = this.props;
     if (league === "mlb") {
@@ -56,16 +57,17 @@ class LiveGame extends Component {
   }
 
   // moves to the final view when the game is over
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { gameData } = this.state;
-  //   const { gameStatus, league } = this.props;
-  //   if (gameData[0].event_information.status === "completed") {
-  //     gameStatus("completed");
-  //   }
-  // }
+  //comment out to see game view
+  componentDidUpdate(prevProps, prevState) {
+    const { gameData } = this.state;
+    const { setGameStatus, league } = this.props;
+    if (gameData[0].event_information.status === "completed") {
+      setGameStatus("completed");
+    }
+  }
 
   render() {
-    const { classes, toggleGame } = this.props;
+    const { classes, setGameStatus } = this.props;
     const { gameData, error } = this.state;
     if (gameData === null || gameData.length === 0) {
       return <h1>loading....</h1>;
@@ -77,7 +79,7 @@ class LiveGame extends Component {
             <CustomGrid
               gameInfo={gameData}
               gameStatus={"live"}
-              toggleGame={toggleGame}
+              setGameStatus={setGameStatus}
               gameBtn={"Leave Game"}
             />
           </div>

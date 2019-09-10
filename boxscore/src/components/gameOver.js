@@ -24,7 +24,6 @@ class GameOver extends Component {
 
   render() {
     const { finalScore } = this.state;
-    console.log(this.state);
     const { league } = this.props;
     if (!finalScore) {
       return <h1>loading...</h1>;
