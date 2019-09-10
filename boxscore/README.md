@@ -7,6 +7,7 @@
 <li>NodeJs</li>
 <li>NodeCron</li>
 <li>Express</li>
+<li>MongoDB</li>
 
 <h2>Font-end Variables:</h2>
 
