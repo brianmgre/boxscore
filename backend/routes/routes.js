@@ -4,7 +4,6 @@ const nba = require("../models/nba");
 const db = require("../db/db");
 const router = express.Router();
 const cron = require("./node-cron");
-let y;
 
 router.get("/mlb", async (req, res) => {
   if (!cron.mlbRunning && !cron.gameOverMlb) {
