@@ -15,10 +15,10 @@
 
 <h2>Back-end Variables:</h2>
 
-<li>`ORIGIN` location of client.</li>
-<li>`MONGO_URL` database.</li>
-<li>`NBA_URL` data feed for sports.</li>
-<li>`MLB_URL` data feed for sports.</li>
+`ORIGIN` location of client.
+`MONGO_URL` database.
+`NBA_URL` data feed for sports.
+`MLB_URL` data feed for sports.
 
 <h2>Using the Application:</h2>
 
