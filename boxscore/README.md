@@ -16,8 +16,11 @@
 <h2>Back-end Variables:</h2>
 
 `ORIGIN` location of client.
+
 `MONGO_URL` database.
+
 `NBA_URL` data feed for sports.
+
 `MLB_URL` data feed for sports.
 
 <h2>Using the Application:</h2>
